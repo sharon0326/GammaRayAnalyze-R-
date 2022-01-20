@@ -1,0 +1,49 @@
+## ---- load-the-dataset ----
+file1<-paste0("https://raw.githubusercontent.com/",
+"mcgillstat/regression/main/data/gamma-arrivals.csv")
+
+# read the csv data file
+dat <- read.csv(file=file1,header = FALSE)
+
+# The equation cannot be solved in closed form; an iterative method for
+# finding the roots has to be employed.
+x = dat$times
+x_bar = mean(x)
+n = length(x)
+f <- function(alpha){
+  log(alpha) - log(x_bar) + mean(log(x)) - digamma(alpha)
+}
+res = uniroot(f, lower = 0.01, upper = 2)
+alpha_hat = res$root
+alpha_hat
+## [1] 1
+
+# define the column name of the dataset
+colnames(dat) <- "times"
+
+# for demonstration, print the first six rows of the matrix
+head(dat)
+
+## ---- draw-histogram ----
+hist(dat$times)
+hist(dat$times,breaks=100)
+
+## ---- estimate-second-moment ----
+mu2_hat = mean(dat$times^2)
+mu2_hat
+
+mu_hat = mean(dat$times)
+mu_hat
+
+## ---- find-alpha-MLE ----
+x = dat$times
+x_bar = mean(x)
+n = length(x)
+f <- function(alpha){
+	log(alpha) - log(x_bar) + mean(log(x)) - digamma(alpha)
+}
+res = uniroot(f, lower = 0.01, upper = 2)
+alpha_hat = res$root
+alpha_hat
+
+
